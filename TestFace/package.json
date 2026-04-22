@@ -35,13 +35,13 @@
       "media": [
         {
           "type": "font",
-          "name": "FONT_ASL_80",
+          "name": "FONT_ASL_55",
           "file": "fonts/AmericanSignLanguage.ttf",
           "characterRegex": "[0-9]"
         },
         {
           "type": "font",
-          "name": "FONT_DISSARAMAS_80",
+          "name": "FONT_DISSARAMAS_48",
           "file": "fonts/DissaramasCruFingerspelling-WedA.ttf",
           "characterRegex": "[0-9]"
         }

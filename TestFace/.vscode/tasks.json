@@ -54,7 +54,7 @@
             "label": "Pebble Install Emery",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator emery && pebble logs --emulator emery"],
+            "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && TZ='America/Los_Angeles' pebble install --emulator emery && TZ='America/Los_Angeles' pebble logs --emulator emery"],
             "group": {
                 "kind": "test",
                 "isDefault": true

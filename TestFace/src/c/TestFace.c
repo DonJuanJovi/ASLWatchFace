@@ -67,9 +67,9 @@ static void window_load(Window *window) {
 
   // Load both fonts
   s_font_asl = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_ASL_80));
+      resource_get_handle(RESOURCE_ID_FONT_ASL_55));
   s_font_dissaramas = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_80));
+      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_48));
   GFont font = get_selected_font();
   int row_h = 85;
   int gap = -6;
