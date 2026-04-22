@@ -8,6 +8,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   Tuple *bg_t   = dict_find(iter, MESSAGE_KEY_SETTING_BG_COLOR);
   Tuple *tm_t   = dict_find(iter, MESSAGE_KEY_SETTING_TIME_COLOR);
   Tuple *info_t = dict_find(iter, MESSAGE_KEY_SETTING_INFO_COLOR);
+  Tuple *font_t = dict_find(iter, MESSAGE_KEY_SETTING_FONT_CHOICE);
 
   if (bg_t) {
     globalSettings.bgColor = GColorFromHEX(bg_t->value->int32);
@@ -17,6 +18,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   }
   if (info_t) {
     globalSettings.infoColor = GColorFromHEX(info_t->value->int32);
+  }
+  if (font_t) {
+    globalSettings.fontChoice = (uint8_t)font_t->value->int8;
   }
 
   Settings_saveToStorage();

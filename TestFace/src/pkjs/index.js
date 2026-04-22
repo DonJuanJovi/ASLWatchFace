@@ -11,6 +11,7 @@ Pebble.addEventListener('showConfiguration', function() {
   var bgColor   = settings.SETTING_BG_COLOR   || '#000000';
   var timeColor = settings.SETTING_TIME_COLOR || '#ffffff';
   var infoColor = settings.SETTING_INFO_COLOR || '#aaaaaa';
+  var fontChoice = settings.SETTING_FONT_CHOICE || '0';
 
   var html = [
     '<!DOCTYPE html>',
@@ -23,6 +24,7 @@ Pebble.addEventListener('showConfiguration', function() {
     '.setting{background:#fff;padding:15px;margin:10px 0;border-radius:8px;}',
     '.setting label{display:block;font-weight:bold;margin-bottom:8px;color:#555;}',
     'input[type=color]{width:100%;height:44px;border:1px solid #ddd;border-radius:4px;cursor:pointer;padding:2px;}',
+    'select{width:100%;height:44px;border:1px solid #ddd;border-radius:4px;font-size:16px;padding:0 8px;}',
     'button{display:block;width:100%;padding:16px;margin-top:20px;background:#4CAF50;color:#fff;border:none;border-radius:8px;font-size:18px;cursor:pointer;}',
     '</style>',
     '</head><body>',
@@ -39,13 +41,21 @@ Pebble.addEventListener('showConfiguration', function() {
     '<label>Info Color</label>',
     '<input type="color" id="info" value="' + infoColor + '">',
     '</div>',
+    '<div class="setting">',
+    '<label>Font</label>',
+    '<select id="font">',
+    '<option value="0"' + (fontChoice === '0' || fontChoice === 0 ? ' selected' : '') + '>American Sign Language</option>',
+    '<option value="1"' + (fontChoice === '1' || fontChoice === 1 ? ' selected' : '') + '>Dissaramas Fingerspelling</option>',
+    '</select>',
+    '</div>',
     '<button onclick="save()">Save Settings</button>',
     '<script>',
     'function save(){',
     'var d={',
     'SETTING_BG_COLOR:document.getElementById("bg").value,',
     'SETTING_TIME_COLOR:document.getElementById("time").value,',
-    'SETTING_INFO_COLOR:document.getElementById("info").value',
+    'SETTING_INFO_COLOR:document.getElementById("info").value,',
+    'SETTING_FONT_CHOICE:document.getElementById("font").value',
     '};',
     'window.location.href="pebblejs://close#"+encodeURIComponent(JSON.stringify(d));',
     '}',
@@ -82,6 +92,11 @@ Pebble.addEventListener('webviewclosed', function(e) {
     if (config[key]) {
       dict[key] = parseInt(config[key].replace('#', ''), 16);
     }
+  }
+
+  // Font choice (non-color setting)
+  if (config.SETTING_FONT_CHOICE !== undefined) {
+    dict.SETTING_FONT_CHOICE = parseInt(config.SETTING_FONT_CHOICE, 10);
   }
 
   Pebble.sendAppMessage(dict,

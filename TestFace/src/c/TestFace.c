@@ -10,7 +10,8 @@ static Window *s_window;
 static TextLayer *s_hour_layer;
 static TextLayer *s_min_layer;
 static TextLayer *s_date_layer;
-static GFont s_time_font;
+static GFont s_font_asl;
+static GFont s_font_dissaramas;
 
 static char s_hour_buf[HOUR_STR_LEN];
 static char s_min_buf[MIN_STR_LEN];
@@ -37,11 +38,18 @@ static void update_display() {
   text_layer_set_text(s_date_layer, s_date_buf);
 }
 
+static GFont get_selected_font() {
+  return globalSettings.fontChoice == 1 ? s_font_dissaramas : s_font_asl;
+}
+
 static void apply_settings() {
   window_set_background_color(s_window, globalSettings.bgColor);
   text_layer_set_text_color(s_hour_layer, globalSettings.timeColor);
   text_layer_set_text_color(s_min_layer, globalSettings.timeColor);
   text_layer_set_text_color(s_date_layer, globalSettings.infoColor);
+  GFont font = get_selected_font();
+  text_layer_set_font(s_hour_layer, font);
+  text_layer_set_font(s_min_layer, font);
 }
 
 static void on_settings_changed() {
@@ -57,23 +65,26 @@ static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(root);
 
-  // Hours layer — top half, centered
-  s_time_font = fonts_load_custom_font(
+  // Load both fonts
+  s_font_asl = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_ASL_80));
+  s_font_dissaramas = fonts_load_custom_font(
+      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_80));
+  GFont font = get_selected_font();
   int row_h = 85;
   int gap = -6;
   int total_h = row_h * 2 + gap;
   int start_y = (bounds.size.h - total_h) / 2 - 4;
 
   s_hour_layer = text_layer_create(GRect(0, start_y, bounds.size.w, row_h));
-  text_layer_set_font(s_hour_layer, s_time_font);
+  text_layer_set_font(s_hour_layer, font);
   text_layer_set_text_alignment(s_hour_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_hour_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_hour_layer));
 
   // Minutes layer — bottom half, centered
   s_min_layer = text_layer_create(GRect(0, start_y + row_h + gap, bounds.size.w, row_h));
-  text_layer_set_font(s_min_layer, s_time_font);
+  text_layer_set_font(s_min_layer, font);
   text_layer_set_text_alignment(s_min_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_min_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_min_layer));
@@ -100,7 +111,8 @@ static void window_unload(Window *window) {
   text_layer_destroy(s_hour_layer);
   text_layer_destroy(s_min_layer);
   text_layer_destroy(s_date_layer);
-  fonts_unload_custom_font(s_time_font);
+  fonts_unload_custom_font(s_font_asl);
+  fonts_unload_custom_font(s_font_dissaramas);
 }
 
 static void init() {

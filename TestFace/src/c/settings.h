@@ -3,6 +3,8 @@
 
 #define SETTINGS_PERSIST_KEY 1
 
+#define DEFAULT_FONT_CHOICE 0
+
 #ifdef PBL_COLOR
   #define DEFAULT_BG_COLOR   GColorBlack
   #define DEFAULT_TIME_COLOR GColorWhite
@@ -17,6 +19,7 @@ typedef struct {
   GColor bgColor;
   GColor timeColor;
   GColor infoColor;
+  uint8_t fontChoice;  // 0 = ASL, 1 = Dissaramas
 } Settings;
 
 extern Settings globalSettings;

@@ -4,9 +4,10 @@
 Settings globalSettings;
 
 void Settings_init() {
-  globalSettings.bgColor   = DEFAULT_BG_COLOR;
-  globalSettings.timeColor = DEFAULT_TIME_COLOR;
-  globalSettings.infoColor = DEFAULT_INFO_COLOR;
+  globalSettings.bgColor     = DEFAULT_BG_COLOR;
+  globalSettings.timeColor   = DEFAULT_TIME_COLOR;
+  globalSettings.infoColor   = DEFAULT_INFO_COLOR;
+  globalSettings.fontChoice  = DEFAULT_FONT_CHOICE;
 
   if (persist_exists(SETTINGS_PERSIST_KEY)) {
     persist_read_data(SETTINGS_PERSIST_KEY, &globalSettings, sizeof(Settings));

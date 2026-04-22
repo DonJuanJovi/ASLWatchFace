@@ -28,13 +28,20 @@
     "messageKeys": [
       "SETTING_BG_COLOR",
       "SETTING_TIME_COLOR",
-      "SETTING_INFO_COLOR"
+      "SETTING_INFO_COLOR",
+      "SETTING_FONT_CHOICE"
     ],
     "resources": {
       "media": [
         {
           "type": "font",
           "name": "FONT_ASL_80",
+          "file": "fonts/AmericanSignLanguage.ttf",
+          "characterRegex": "[0-9]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_DISSARAMAS_80",
           "file": "fonts/DissaramasCruFingerspelling-WedA.ttf",
           "characterRegex": "[0-9]"
         }
