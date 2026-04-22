@@ -53,9 +53,9 @@ static void window_load(Window *window) {
 
   // Time layer — custom ASL font, centered on screen
   s_time_font = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_ASL_68));
-  int time_y = (bounds.size.h / 2) - 40;
-  s_time_layer = text_layer_create(GRect(0, time_y, bounds.size.w, 76));
+      resource_get_handle(RESOURCE_ID_FONT_ASL_48));
+  int time_y = (bounds.size.h / 2) - 28;
+  s_time_layer = text_layer_create(GRect(0, time_y, bounds.size.w, 56));
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_time_layer, GColorClear);
