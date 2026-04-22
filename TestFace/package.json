@@ -34,7 +34,7 @@
       "media": [
         {
           "type": "font",
-          "name": "FONT_ASL_78",
+          "name": "FONT_ASL_80",
           "file": "fonts/DissaramasCruFingerspelling-WedA.ttf",
           "characterRegex": "[0-9]"
         }

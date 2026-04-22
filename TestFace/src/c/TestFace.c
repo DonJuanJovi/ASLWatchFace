@@ -2,7 +2,6 @@
 #include "settings.h"
 #include "messaging.h"
 
-#define TIME_STR_LEN 6
 #define HOUR_STR_LEN 3
 #define MIN_STR_LEN 3
 #define DATE_STR_LEN 12
@@ -21,25 +20,15 @@ static void update_display() {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
 
-  char time_buf[TIME_STR_LEN];
   if (clock_is_24h_style()) {
-    strftime(time_buf, sizeof(time_buf), "%H:%M", t);
+    strftime(s_hour_buf, sizeof(s_hour_buf), "%H", t);
   } else {
-    strftime(time_buf, sizeof(time_buf), "%I:%M", t);
-    if (time_buf[0] == '0') {
-      memmove(time_buf, time_buf + 1, strlen(time_buf));
+    strftime(s_hour_buf, sizeof(s_hour_buf), "%I", t);
+    if (s_hour_buf[0] == '0') {
+      memmove(s_hour_buf, s_hour_buf + 1, strlen(s_hour_buf));
     }
   }
-
-  // Split at the colon
-  char *colon = strchr(time_buf, ':');
-  if (colon) {
-    *colon = '\0';
-    strncpy(s_hour_buf, time_buf, HOUR_STR_LEN - 1);
-    s_hour_buf[HOUR_STR_LEN - 1] = '\0';
-    strncpy(s_min_buf, colon + 1, MIN_STR_LEN - 1);
-    s_min_buf[MIN_STR_LEN - 1] = '\0';
-  }
+  strftime(s_min_buf, sizeof(s_min_buf), "%M", t);
 
   strftime(s_date_buf, sizeof(s_date_buf), "%a %e", t);
 
@@ -70,11 +59,11 @@ static void window_load(Window *window) {
 
   // Hours layer — top half, centered
   s_time_font = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_ASL_78));
-  int row_h = 64;
-  int gap = 0;
+      resource_get_handle(RESOURCE_ID_FONT_ASL_80));
+  int row_h = 85;
+  int gap = -6;
   int total_h = row_h * 2 + gap;
-  int start_y = (bounds.size.h - total_h) / 2 - 6;
+  int start_y = (bounds.size.h - total_h) / 2 - 4;
 
   s_hour_layer = text_layer_create(GRect(0, start_y, bounds.size.w, row_h));
   text_layer_set_font(s_hour_layer, s_time_font);
