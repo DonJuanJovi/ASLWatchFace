@@ -6,11 +6,9 @@
 #define DATE_STR_LEN 12
 
 static Window *s_window;
-static TextLayer *s_time_fill_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
 static GFont s_time_font;
-static GFont s_time_fill_font;
 
 static char s_time_buf[TIME_STR_LEN];
 static char s_date_buf[DATE_STR_LEN];
@@ -30,14 +28,12 @@ static void update_display() {
 
   strftime(s_date_buf, sizeof(s_date_buf), "%a %e", t);
 
-  text_layer_set_text(s_time_fill_layer, s_time_buf);
   text_layer_set_text(s_time_layer, s_time_buf);
   text_layer_set_text(s_date_layer, s_date_buf);
 }
 
 static void apply_settings() {
   window_set_background_color(s_window, globalSettings.bgColor);
-  text_layer_set_text_color(s_time_fill_layer, globalSettings.timeFillColor);
   text_layer_set_text_color(s_time_layer, globalSettings.timeColor);
   text_layer_set_text_color(s_date_layer, globalSettings.infoColor);
 }
@@ -55,22 +51,11 @@ static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(root);
 
-  // Time fill layer — solid font, dark gray, behind outline
-  s_time_fill_font = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_ASL_68_SOLID));
-  int time_y = (bounds.size.h / 2) - 40;
-  GRect time_rect = GRect(0, time_y, bounds.size.w, 76);
-
-  s_time_fill_layer = text_layer_create(time_rect);
-  text_layer_set_font(s_time_fill_layer, s_time_fill_font);
-  text_layer_set_text_alignment(s_time_fill_layer, GTextAlignmentCenter);
-  text_layer_set_background_color(s_time_fill_layer, GColorClear);
-  layer_add_child(root, text_layer_get_layer(s_time_fill_layer));
-
-  // Time outline layer — outline font, white, on top
+  // Time layer — custom ASL font, centered on screen
   s_time_font = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_ASL_68));
-  s_time_layer = text_layer_create(time_rect);
+  int time_y = (bounds.size.h / 2) - 40;
+  s_time_layer = text_layer_create(GRect(0, time_y, bounds.size.w, 76));
   text_layer_set_font(s_time_layer, s_time_font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_time_layer, GColorClear);
@@ -95,10 +80,8 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
-  text_layer_destroy(s_time_fill_layer);
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_date_layer);
-  fonts_unload_custom_font(s_time_fill_font);
   fonts_unload_custom_font(s_time_font);
 }
 
