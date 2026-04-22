@@ -6,7 +6,8 @@ static void (*s_settings_callback)(void);
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   Tuple *bg_t   = dict_find(iter, MESSAGE_KEY_SETTING_BG_COLOR);
-  Tuple *tm_t  = dict_find(iter, MESSAGE_KEY_SETTING_TIME_COLOR);
+  Tuple *tm_t   = dict_find(iter, MESSAGE_KEY_SETTING_TIME_COLOR);
+  Tuple *fill_t = dict_find(iter, MESSAGE_KEY_SETTING_TIME_FILL_COLOR);
   Tuple *info_t = dict_find(iter, MESSAGE_KEY_SETTING_INFO_COLOR);
 
   if (bg_t) {
@@ -14,6 +15,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   }
   if (tm_t) {
     globalSettings.timeColor = GColorFromHEX(tm_t->value->int32);
+  }
+  if (fill_t) {
+    globalSettings.timeFillColor = GColorFromHEX(fill_t->value->int32);
   }
   if (info_t) {
     globalSettings.infoColor = GColorFromHEX(info_t->value->int32);

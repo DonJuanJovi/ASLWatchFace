@@ -10,6 +10,7 @@ Pebble.addEventListener('showConfiguration', function() {
 
   var bgColor   = settings.SETTING_BG_COLOR   || '#000000';
   var timeColor = settings.SETTING_TIME_COLOR || '#ffffff';
+  var fillColor = settings.SETTING_TIME_FILL_COLOR || '#555555';
   var infoColor = settings.SETTING_INFO_COLOR || '#aaaaaa';
 
   var html = [
@@ -32,8 +33,12 @@ Pebble.addEventListener('showConfiguration', function() {
     '<input type="color" id="bg" value="' + bgColor + '">',
     '</div>',
     '<div class="setting">',
-    '<label>Time Color</label>',
+    '<label>Time Outline Color</label>',
     '<input type="color" id="time" value="' + timeColor + '">',
+    '</div>',
+    '<div class="setting">',
+    '<label>Time Fill Color</label>',
+    '<input type="color" id="fill" value="' + fillColor + '">',
     '</div>',
     '<div class="setting">',
     '<label>Info Color</label>',
@@ -45,6 +50,7 @@ Pebble.addEventListener('showConfiguration', function() {
     'var d={',
     'SETTING_BG_COLOR:document.getElementById("bg").value,',
     'SETTING_TIME_COLOR:document.getElementById("time").value,',
+    'SETTING_TIME_FILL_COLOR:document.getElementById("fill").value,',
     'SETTING_INFO_COLOR:document.getElementById("info").value',
     '};',
     'window.location.href="pebblejs://close#"+encodeURIComponent(JSON.stringify(d));',
@@ -76,7 +82,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
   localStorage.setItem('testfaceSettings', JSON.stringify(config));
 
   var dict = {};
-  var colorKeys = ['SETTING_BG_COLOR', 'SETTING_TIME_COLOR', 'SETTING_INFO_COLOR'];
+  var colorKeys = ['SETTING_BG_COLOR', 'SETTING_TIME_COLOR', 'SETTING_TIME_FILL_COLOR', 'SETTING_INFO_COLOR'];
   for (var i = 0; i < colorKeys.length; i++) {
     var key = colorKeys[i];
     if (config[key]) {

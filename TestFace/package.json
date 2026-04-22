@@ -28,15 +28,22 @@
     "messageKeys": [
       "SETTING_BG_COLOR",
       "SETTING_TIME_COLOR",
+      "SETTING_TIME_FILL_COLOR",
       "SETTING_INFO_COLOR"
     ],
     "resources": {
       "media": [
         {
           "type": "font",
-          "name": "FONT_ASL_42",
+          "name": "FONT_ASL_68",
           "file": "fonts/AmericanSignLanguage.otf",
-          "compatibility": "2.7"
+          "characterRegex": "[0-9:]"
+        },
+        {
+          "type": "font",
+          "name": "FONT_ASL_68_SOLID",
+          "file": "fonts/AmericanSignLanguage_solid.otf",
+          "characterRegex": "[0-9:]"
         }
       ]
     }
