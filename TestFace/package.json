@@ -31,7 +31,14 @@
       "SETTING_INFO_COLOR"
     ],
     "resources": {
-      "media": []
+      "media": [
+        {
+          "type": "font",
+          "name": "FONT_ASL_42",
+          "file": "fonts/AmericanSignLanguage.otf",
+          "compatibility": "2.7"
+        }
+      ]
     }
   }
 }
