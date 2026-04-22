@@ -51,7 +51,23 @@
             }
         },
         {
-            "label": "Pebble Install (Emulator - Basalt)",
+            "label": "Pebble Install Emery",
+            "type": "shell",
+            "command": "wsl",
+            "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator emery && pebble logs --emulator emery"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": "Pebble Build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Pebble Install Basalt",
             "type": "shell",
             "command": "wsl",
             "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator basalt --logs"],
@@ -68,7 +84,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Install (Emulator - Chalk)",
+            "label": "Pebble Install Chalk",
             "type": "shell",
             "command": "wsl",
             "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator chalk"],
@@ -81,7 +97,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Install (Emulator - Aplite)",
+            "label": "Pebble Install Aplite",
             "type": "shell",
             "command": "wsl",
             "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator aplite"],
