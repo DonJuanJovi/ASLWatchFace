@@ -54,9 +54,13 @@
             "label": "Pebble Install (Emulator - Basalt)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator basalt"],
-            "group": "test",
+            "args": ["bash", "-lc", "cd /mnt/q/Pebble/TestFace && pebble install --emulator basalt --logs"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
             "dependsOn": "Pebble Build",
+            "isBackground": true,
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
