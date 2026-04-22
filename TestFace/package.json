@@ -1,0 +1,37 @@
+{
+  "name": "TestFace",
+  "author": "MakeAwesomeHappen",
+  "version": "1.0.0",
+  "keywords": ["pebble-watchface"],
+  "private": true,
+  "dependencies": {},
+  "pebble": {
+    "displayName": "TestFace",
+    "uuid": "f523b0e5-6551-43ea-991e-d9a56b54b1b4",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk",
+      "diorite",
+      "emery",
+      "flint",
+      "gabbro"
+    ],
+    "capabilities": [
+      "configurable"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "SETTING_BG_COLOR",
+      "SETTING_TIME_COLOR",
+      "SETTING_INFO_COLOR"
+    ],
+    "resources": {
+      "media": []
+    }
+  }
+}
