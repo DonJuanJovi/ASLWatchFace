@@ -93,29 +93,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Settings (Emulator)",
-            "type": "shell",
-            "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && chmod +x .vscode/open-settings-emery.sh && .vscode/open-settings-emery.sh"],
-            "dependsOn": "Pebble Build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Pebble Emulator Cleanup",
-            "type": "shell",
-            "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && chmod +x .vscode/cleanup-emery.sh && .vscode/cleanup-emery.sh"],
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Pebble Logs (Emulator)",
             "type": "shell",
             "command": "wsl",

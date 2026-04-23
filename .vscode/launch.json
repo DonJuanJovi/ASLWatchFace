@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Pebble Settings (Emery)",
+            "name": "Pebble Deploy (Emery)",
             "type": "node-terminal",
             "request": "launch",
-            "command": "wsl bash -lc \"cd /mnt/q/ASLWatchFace && chmod +x .vscode/open-settings-emery.sh && .vscode/open-settings-emery.sh\"",
+            "command": "wsl bash -lc 'cd /mnt/q/ASLWatchFace && pebble install --emulator emery && pebble logs --emulator emery'",
             "preLaunchTask": "Pebble Build"
         }
     ]
