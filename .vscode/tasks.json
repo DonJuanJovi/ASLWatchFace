@@ -67,46 +67,6 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Install Basalt",
-            "type": "shell",
-            "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator basalt --logs"],
-            "group": "test",
-            "dependsOn": "Pebble Build",
-            "isBackground": true,
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Pebble Install Chalk",
-            "type": "shell",
-            "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator chalk"],
-            "group": "test",
-            "dependsOn": "Pebble Build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "Pebble Install Aplite",
-            "type": "shell",
-            "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator aplite"],
-            "group": "test",
-            "dependsOn": "Pebble Build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
             "label": "Pebble Install Flint",
             "type": "shell",
             "command": "wsl",
