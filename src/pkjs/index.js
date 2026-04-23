@@ -57,7 +57,10 @@ Pebble.addEventListener('showConfiguration', function() {
     'SETTING_INFO_COLOR:document.getElementById("info").value,',
     'SETTING_FONT_CHOICE:document.getElementById("font").value',
     '};',
-    'window.location.href="pebblejs://close#"+encodeURIComponent(JSON.stringify(d));',
+    'var encoded=encodeURIComponent(JSON.stringify(d));',
+    'var m=/(?:^|[?&#])return_to=([^&]*)/.exec((window.location.search||"")+"&"+(window.location.hash||"").replace(/^#/,""));',
+    'if(m&&m[1]){window.location.href=decodeURIComponent(m[1])+encoded;return;}',
+    'window.location.href="pebblejs://close#"+encoded;',
     '}',
     '</script>',
     '</body></html>'

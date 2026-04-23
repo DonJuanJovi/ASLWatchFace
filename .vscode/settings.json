@@ -8,5 +8,8 @@
     },
     "C_Cpp.default.cStandard": "c99",
     "editor.tabSize": 2,
-    "editor.insertSpaces": true
+    "editor.insertSpaces": true,
+    "chat.tools.terminal.autoApprove": {
+        "wsl": true
+    }
 }
