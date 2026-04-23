@@ -1,0 +1,87 @@
+{
+    "configurations": [
+        {
+            "name": "Pebble Basalt (Color Rect)",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/build/include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\sdk-core\\pebble\\basalt\\include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\toolchain\\arm-none-eabi\\lib\\gcc\\arm-none-eabi\\14.2.1\\include"
+            ],
+            "defines": [
+                "RELEASE",
+                "PBL_PLATFORM_BASALT",
+                "PBL_COLOR",
+                "PBL_RECT",
+                "PBL_MICROPHONE",
+                "PBL_SMARTSTRAP",
+                "PBL_HEALTH",
+                "PBL_COMPASS",
+                "PBL_SMARTSTRAP_POWER",
+                "PBL_DISPLAY_WIDTH=144",
+                "PBL_DISPLAY_HEIGHT=168",
+                "PBL_SDK_FROZEN",
+                "PBL_SDK_3",
+                "_TIME_H_",
+                "time_t=long"
+            ],
+            "cStandard": "c99",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": ""
+        },
+        {
+            "name": "Pebble Chalk (Color Round)",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/build/include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\sdk-core\\pebble\\chalk\\include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\toolchain\\arm-none-eabi\\lib\\gcc\\arm-none-eabi\\14.2.1\\include"
+            ],
+            "defines": [
+                "RELEASE",
+                "PBL_PLATFORM_CHALK",
+                "PBL_COLOR",
+                "PBL_ROUND",
+                "PBL_MICROPHONE",
+                "PBL_SMARTSTRAP",
+                "PBL_HEALTH",
+                "PBL_COMPASS",
+                "PBL_SMARTSTRAP_POWER",
+                "PBL_DISPLAY_WIDTH=180",
+                "PBL_DISPLAY_HEIGHT=180",
+                "PBL_SDK_FROZEN",
+                "PBL_SDK_3",
+                "_TIME_H_",
+                "time_t=long"
+            ],
+            "cStandard": "c99",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": ""
+        },
+        {
+            "name": "Pebble Aplite (BW Rect)",
+            "includePath": [
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/build/include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\sdk-core\\pebble\\aplite\\include",
+                "\\\\wsl.localhost\\Ubuntu\\home\\jecahill\\.pebble-sdk\\SDKs\\4.9.148\\toolchain\\arm-none-eabi\\lib\\gcc\\arm-none-eabi\\14.2.1\\include"
+            ],
+            "defines": [
+                "RELEASE",
+                "PBL_PLATFORM_APLITE",
+                "PBL_BW",
+                "PBL_RECT",
+                "PBL_DISPLAY_WIDTH=144",
+                "PBL_DISPLAY_HEIGHT=168",
+                "PBL_SDK_FROZEN",
+                "PBL_SDK_3",
+                "_TIME_H_",
+                "time_t=long"
+            ],
+            "cStandard": "c99",
+            "intelliSenseMode": "gcc-arm",
+            "compilerPath": ""
+        }
+    ],
+    "version": 4
+}

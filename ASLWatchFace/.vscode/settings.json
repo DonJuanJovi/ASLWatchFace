@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*.h": "c",
+        "*.c": "c"
+    },
+    "files.exclude": {
+        "build": true
+    },
+    "C_Cpp.default.cStandard": "c99",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true
+}
