@@ -1,6 +1,6 @@
 # ASL Watch Face
 
-This project is in early development and is not yet ready for use or collaboration.
+**This project is in early development and is not yet ready for use or collaboration.**
 
 A Pebble watchface that displays the current time using American Sign Language
 (ASL) fingerspelling fonts.
