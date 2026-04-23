@@ -12,6 +12,9 @@ static TextLayer *s_min_layer;
 static TextLayer *s_date_layer;
 static GFont s_font_asl;
 static GFont s_font_dissaramas;
+static GFont s_font_asl_sm;
+static GFont s_font_dissaramas_sm;
+static bool s_use_small_font;
 
 static char s_hour_buf[HOUR_STR_LEN];
 static char s_min_buf[MIN_STR_LEN];
@@ -39,6 +42,9 @@ static void update_display() {
 }
 
 static GFont get_selected_font() {
+  if (s_use_small_font) {
+    return globalSettings.fontChoice == 1 ? s_font_dissaramas_sm : s_font_asl_sm;
+  }
   return globalSettings.fontChoice == 1 ? s_font_dissaramas : s_font_asl;
 }
 
@@ -65,14 +71,22 @@ static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(root);
 
-  // Load both fonts
+  // Load fonts (large and small variants)
   s_font_asl = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_ASL_55));
   s_font_dissaramas = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_48));
+  s_font_asl_sm = fonts_load_custom_font(
+      resource_get_handle(RESOURCE_ID_FONT_ASL_42));
+  s_font_dissaramas_sm = fonts_load_custom_font(
+      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_36));
+
+  // Use small fonts on smaller screens (Flint, etc.), large on Emery
+  s_use_small_font = bounds.size.h < 200;
   GFont font = get_selected_font();
-  int row_h = 85;
-  int gap = -6;
+
+  int gap = -12;
+  int row_h = s_use_small_font ? 65 : 85;
   int total_h = row_h * 2 + gap;
   int start_y = (bounds.size.h - total_h) / 2 - 4;
 
@@ -89,17 +103,18 @@ static void window_load(Window *window) {
   text_layer_set_background_color(s_min_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_min_layer));
 
-  // Date layer — day-of-week + day-of-month, top right
+  // Date layer — centered on round displays, top-right on rectangular
   #ifdef PBL_ROUND
-    GRect date_rect = GRect(bounds.size.w / 2 + 2, 26,
-                            bounds.size.w / 2 - 12, 24);
+    GRect date_rect = GRect(0, 26, bounds.size.w, 24);
+    GTextAlignment date_align = GTextAlignmentCenter;
   #else
     GRect date_rect = GRect(bounds.size.w - 74, 4, 70, 24);
+    GTextAlignment date_align = GTextAlignmentRight;
   #endif
   s_date_layer = text_layer_create(date_rect);
   text_layer_set_font(s_date_layer,
                       fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  text_layer_set_text_alignment(s_date_layer, GTextAlignmentRight);
+  text_layer_set_text_alignment(s_date_layer, date_align);
   text_layer_set_background_color(s_date_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_date_layer));
 
@@ -113,6 +128,8 @@ static void window_unload(Window *window) {
   text_layer_destroy(s_date_layer);
   fonts_unload_custom_font(s_font_asl);
   fonts_unload_custom_font(s_font_dissaramas);
+  fonts_unload_custom_font(s_font_asl_sm);
+  fonts_unload_custom_font(s_font_dissaramas_sm);
 }
 
 static void init() {
