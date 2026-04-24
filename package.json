@@ -31,7 +31,7 @@
       "media": [
         {
           "type": "font",
-          "name": "FONT_ASL_55",
+          "name": "FONT_ASL_64",
           "file": "fonts/AmericanSignLanguage.ttf",
           "characterRegex": "[0-9]"
         },
