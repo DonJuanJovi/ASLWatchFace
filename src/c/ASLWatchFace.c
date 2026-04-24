@@ -11,9 +11,7 @@ static Window *s_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
 static GFont s_font_asl;
-static GFont s_font_dissaramas;
 static GFont s_font_asl_sm;
-static GFont s_font_dissaramas_sm;
 static bool s_use_small_font;
 
 static char s_hour_buf[HOUR_STR_LEN];
@@ -44,9 +42,9 @@ static void update_display() {
 
 static GFont get_selected_font() {
   if (s_use_small_font) {
-    return globalSettings.fontChoice == 1 ? s_font_dissaramas_sm : s_font_asl_sm;
+    return s_font_asl_sm;
   }
-  return globalSettings.fontChoice == 1 ? s_font_dissaramas : s_font_asl;
+  return s_font_asl;
 }
 
 static void apply_settings() {
@@ -73,12 +71,8 @@ static void window_load(Window *window) {
   // Load fonts (large and small variants)
   s_font_asl = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_ASL_64));
-  s_font_dissaramas = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_48));
   s_font_asl_sm = fonts_load_custom_font(
       resource_get_handle(RESOURCE_ID_FONT_ASL_42));
-  s_font_dissaramas_sm = fonts_load_custom_font(
-      resource_get_handle(RESOURCE_ID_FONT_DISSARAMAS_36));
 
   // Use small fonts on smaller screens (Flint, etc.), large on Emery
   s_use_small_font = bounds.size.h < 200;
@@ -116,9 +110,7 @@ static void window_unload(Window *window) {
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_date_layer);
   fonts_unload_custom_font(s_font_asl);
-  fonts_unload_custom_font(s_font_dissaramas);
   fonts_unload_custom_font(s_font_asl_sm);
-  fonts_unload_custom_font(s_font_dissaramas_sm);
 }
 
 static void init() {

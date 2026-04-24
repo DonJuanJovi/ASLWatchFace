@@ -40,18 +40,6 @@
           "name": "FONT_ASL_42",
           "file": "fonts/AmericanSignLanguage.ttf",
           "characterRegex": "[0-9]"
-        },
-        {
-          "type": "font",
-          "name": "FONT_DISSARAMAS_48",
-          "file": "fonts/DissaramasCruFingerspelling-WedA.ttf",
-          "characterRegex": "[0-9]"
-        },
-        {
-          "type": "font",
-          "name": "FONT_DISSARAMAS_36",
-          "file": "fonts/DissaramasCruFingerspelling-WedA.ttf",
-          "characterRegex": "[0-9]"
         }
       ]
     }
