@@ -54,12 +54,11 @@
             "label": "Pebble Install Emery",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && TZ='America/Los_Angeles' pebble install --emulator emery && TZ='America/Los_Angeles' pebble logs --emulator emery"],
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator emery --logs"],
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
-            "dependsOn": "Pebble Build",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -70,7 +69,7 @@
             "label": "Pebble Install Flint",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator flint"],
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator flint --logs"],
             "group": "test",
             "dependsOn": "Pebble Build",
             "presentation": {
@@ -96,7 +95,7 @@
             "label": "Pebble Logs (Emulator)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble logs --emulator basalt"],
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble logs --emulator emery"],
             "isBackground": true,
             "presentation": {
                 "reveal": "always",
@@ -108,7 +107,7 @@
             "label": "Pebble Screenshot (Emulator)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble screenshot --emulator basalt"],
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble screenshot --emulator emery"],
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
