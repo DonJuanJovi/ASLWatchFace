@@ -5,9 +5,11 @@
 #define HOUR_STR_LEN 3
 #define MIN_STR_LEN 3
 #define TIME_STR_LEN 5
-#define DATE_STR_LEN 12
+#define DOW_STR_LEN 10
+#define FULL_DATE_STR_LEN 16
 
 static Window *s_window;
+static TextLayer *s_dow_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
 static GFont s_font_asl;
@@ -17,7 +19,8 @@ static bool s_use_small_font;
 static char s_hour_buf[HOUR_STR_LEN];
 static char s_min_buf[MIN_STR_LEN];
 static char s_time_buf[TIME_STR_LEN];
-static char s_date_buf[DATE_STR_LEN];
+static char s_dow_buf[DOW_STR_LEN];
+static char s_full_date_buf[FULL_DATE_STR_LEN];
 
 static void update_display() {
   time_t now = time(NULL);
@@ -34,10 +37,12 @@ static void update_display() {
   strftime(s_min_buf, sizeof(s_min_buf), "%M", t);
   snprintf(s_time_buf, sizeof(s_time_buf), "%s%s", s_hour_buf, s_min_buf);
 
-  strftime(s_date_buf, sizeof(s_date_buf), "%a %e", t);
+  strftime(s_dow_buf, sizeof(s_dow_buf), "%A", t);
+  strftime(s_full_date_buf, sizeof(s_full_date_buf), "%b %e, %Y", t);
 
+  text_layer_set_text(s_dow_layer, s_dow_buf);
   text_layer_set_text(s_time_layer, s_time_buf);
-  text_layer_set_text(s_date_layer, s_date_buf);
+  text_layer_set_text(s_date_layer, s_full_date_buf);
 }
 
 static GFont get_selected_font() {
@@ -49,6 +54,7 @@ static GFont get_selected_font() {
 
 static void apply_settings() {
   window_set_background_color(s_window, globalSettings.bgColor);
+  text_layer_set_text_color(s_dow_layer, globalSettings.infoColor);
   text_layer_set_text_color(s_time_layer, globalSettings.timeColor);
   text_layer_set_text_color(s_date_layer, globalSettings.infoColor);
   GFont font = get_selected_font();
@@ -78,27 +84,30 @@ static void window_load(Window *window) {
   s_use_small_font = bounds.size.h < 200;
   GFont font = get_selected_font();
 
-  int row_h = s_use_small_font ? 65 : 85;
-  int start_y = (bounds.size.h - row_h) / 2 - 4;
+  int gap = 5;
+  int row_h = (s_use_small_font ? 40 : 45) + gap;
+  int label_h = 18;
+  int total_h = label_h + row_h + label_h;
+  int start_y = (bounds.size.h - total_h) / 2;
 
-  s_time_layer = text_layer_create(GRect(0, start_y, bounds.size.w, row_h));
+  // Day of week label (top)
+  s_dow_layer = text_layer_create(GRect(0, start_y, bounds.size.w, label_h));
+  text_layer_set_font(s_dow_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_text_alignment(s_dow_layer, GTextAlignmentCenter);
+  text_layer_set_background_color(s_dow_layer, GColorClear);
+  layer_add_child(root, text_layer_get_layer(s_dow_layer));
+
+  // Time layer (middle) with gap spacing
+  s_time_layer = text_layer_create(GRect(0, start_y + label_h + gap, bounds.size.w, row_h));
   text_layer_set_font(s_time_layer, font);
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_time_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_time_layer));
 
-  // Date layer — centered on round displays, top-right on rectangular
-  #ifdef PBL_ROUND
-    GRect date_rect = GRect(0, 26, bounds.size.w, 24);
-    GTextAlignment date_align = GTextAlignmentCenter;
-  #else
-    GRect date_rect = GRect(bounds.size.w - 74, 4, 70, 24);
-    GTextAlignment date_align = GTextAlignmentRight;
-  #endif
-  s_date_layer = text_layer_create(date_rect);
-  text_layer_set_font(s_date_layer,
-                      fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
-  text_layer_set_text_alignment(s_date_layer, date_align);
+  // Full date layer (bottom) with gap spacing
+  s_date_layer = text_layer_create(GRect(0, start_y + label_h + gap + row_h + gap, bounds.size.w, label_h));
+  text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
   text_layer_set_background_color(s_date_layer, GColorClear);
   layer_add_child(root, text_layer_get_layer(s_date_layer));
 
@@ -107,6 +116,7 @@ static void window_load(Window *window) {
 }
 
 static void window_unload(Window *window) {
+  text_layer_destroy(s_dow_layer);
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_date_layer);
   fonts_unload_custom_font(s_font_asl);
