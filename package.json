@@ -1,10 +1,14 @@
 {
-  "name": "ASLWatchFace",
+  "name": "asl-watch-face",
   "author": "MakeAwesomeHappen",
   "version": "1.0.0",
-  "keywords": ["pebble-watchface"],
+  "keywords": [
+    "pebble-watchface"
+  ],
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "@rebble/clay": "^1.0.8"
+  },
   "pebble": {
     "displayName": "ASLWatchFace",
     "uuid": "f523b0e5-6551-43ea-991e-d9a56b54b1b4",
@@ -12,7 +16,6 @@
     "enableMultiJS": true,
     "targetPlatforms": [
       "emery",
-      "flint",
       "gabbro"
     ],
     "capabilities": [

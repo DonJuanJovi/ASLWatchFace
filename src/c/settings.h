@@ -5,15 +5,9 @@
 
 #define DEFAULT_FONT_CHOICE 0
 
-#ifdef PBL_COLOR
-  #define DEFAULT_BG_COLOR   GColorBlack
-  #define DEFAULT_TIME_COLOR GColorWhite
-  #define DEFAULT_INFO_COLOR GColorLightGray
-#else
-  #define DEFAULT_BG_COLOR   GColorBlack
-  #define DEFAULT_TIME_COLOR GColorWhite
-  #define DEFAULT_INFO_COLOR GColorWhite
-#endif
+#define DEFAULT_BG_COLOR   GColorBlack
+#define DEFAULT_TIME_COLOR GColorWhite
+#define DEFAULT_INFO_COLOR GColorLightGray
 
 typedef struct {
   GColor bgColor;

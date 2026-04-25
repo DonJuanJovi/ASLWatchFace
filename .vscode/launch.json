@@ -9,10 +9,11 @@
             "preLaunchTask": "Pebble Build"
         },
         {
-            "name": "Pebble Settings (HTML, Emery)",
+            "name": "Pebble Settings (Clay, Emery)",
             "type": "node-terminal",
             "request": "launch",
-            "command": "pwsh -NoProfile -Command \"Start-Process '${workspaceFolder}\\src\\pkjs\\settings.html'\""
+            "command": "wsl bash -lc 'cd /mnt/q/ASLWatchFace && for i in {1..15}; do pebble emu-app-config --emulator emery && exit 0; echo waiting-for-pkjs; sleep 1; done; echo failed-to-open-settings; exit 1'",
+            "preLaunchTask": "Pebble Install Emery (No Logs)"
         }
     ]
 }

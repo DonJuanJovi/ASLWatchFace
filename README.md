@@ -11,8 +11,8 @@ A Pebble watchface that displays the current time using American Sign Language
   *Dissaramas Fingerspelling* styles
 - **Customizable colors** — background, time, and info colors can all be
   configured from the phone settings page
-- **Multi-platform support** — adapts font size and layout automatically for
-  each Pebble screen (Aplite, Basalt, Chalk, Diorite, Emery, Flint, Gabbro)
+- **Color-platform support** — adapts font size and layout automatically for
+  each supported color Pebble screen (Emery and Gabbro)
 - **12/24-hour support** — follows the watch's system clock style setting
 
 ## Development

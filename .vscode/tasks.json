@@ -66,11 +66,10 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Install Flint",
+            "label": "Pebble Install Emery (No Logs)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator flint --logs"],
-            "group": "test",
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator emery"],
             "dependsOn": "Pebble Build",
             "presentation": {
                 "reveal": "always",
@@ -127,10 +126,11 @@
             "problemMatcher": []
         },
         {
-            "label": "Pebble Settings (HTML, Emery)",
+            "label": "Pebble Settings (Clay, Emery)",
             "type": "shell",
-            "command": "pwsh",
-            "args": ["-NoProfile", "-Command", "Start-Process \"${workspaceFolder}\\src\\pkjs\\settings.html\""],
+            "command": "wsl",
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && for i in {1..15}; do pebble emu-app-config --emulator emery && exit 0; echo waiting-for-pkjs; sleep 1; done; echo failed-to-open-settings; exit 1"],
+            "dependsOn": "Pebble Install Emery (No Logs)",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
