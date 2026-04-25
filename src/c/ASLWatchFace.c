@@ -7,6 +7,11 @@
 #define TIME_STR_LEN 5
 #define DOW_STR_LEN 10
 #define FULL_DATE_STR_LEN 16
+#define INFO_LAYER_HEIGHT 18
+#define LAYER_GAP 5
+#define SMALL_CLOCK_LAYER_HEIGHT 35
+#define LARGE_CLOCK_LAYER_HEIGHT 50
+#define SMALL_SCREEN_HEIGHT 200
 
 static Window *s_window;
 static TextLayer *s_dow_layer;
@@ -21,6 +26,29 @@ static char s_min_buf[MIN_STR_LEN];
 static char s_time_buf[TIME_STR_LEN];
 static char s_dow_buf[DOW_STR_LEN];
 static char s_full_date_buf[FULL_DATE_STR_LEN];
+
+static TextLayer *create_text_layer(Layer *parent, GRect frame, GFont font) {
+  TextLayer *layer = text_layer_create(frame);
+  text_layer_set_font(layer, font);
+  text_layer_set_text_alignment(layer, GTextAlignmentCenter);
+  text_layer_set_background_color(layer, GColorClear);
+  layer_add_child(parent, text_layer_get_layer(layer));
+  return layer;
+}
+
+static int get_clock_layer_height() {
+  if (s_use_small_font) {
+    return SMALL_CLOCK_LAYER_HEIGHT;
+  }
+  return LARGE_CLOCK_LAYER_HEIGHT;
+}
+
+static int get_clock_top_gap() {
+  if (s_use_small_font) {
+    return LAYER_GAP;
+  }
+  return LAYER_GAP + (LARGE_CLOCK_LAYER_HEIGHT - 45);
+}
 
 static void update_display() {
   time_t now = time(NULL);
@@ -73,6 +101,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(root);
+  GFont info_font = fonts_get_system_font(FONT_KEY_GOTHIC_14);
 
   // Load fonts (large and small variants)
   s_font_asl = fonts_load_custom_font(
@@ -81,35 +110,22 @@ static void window_load(Window *window) {
       resource_get_handle(RESOURCE_ID_FONT_ASL_42));
 
   // Use small fonts on smaller screens (Flint, etc.), large on Emery
-  s_use_small_font = bounds.size.h < 200;
+  s_use_small_font = bounds.size.h < SMALL_SCREEN_HEIGHT;
   GFont font = get_selected_font();
+  int clock_top_gap = get_clock_top_gap();
+  int clock_h = get_clock_layer_height();
+  int stack_h = INFO_LAYER_HEIGHT + clock_top_gap + clock_h + LAYER_GAP + INFO_LAYER_HEIGHT;
+  int stack_top = (bounds.size.h - stack_h) / 2;
+  int dow_y = stack_top;
+  int time_y = dow_y + INFO_LAYER_HEIGHT + clock_top_gap;
+  int date_y = time_y + clock_h + LAYER_GAP;
 
-  int gap = 5;
-  int row_h = (s_use_small_font ? 40 : 45) + gap;
-  int label_h = 18;
-  int total_h = label_h + row_h + label_h;
-  int start_y = (bounds.size.h - total_h) / 2;
-
-  // Day of week label (top)
-  s_dow_layer = text_layer_create(GRect(0, start_y, bounds.size.w, label_h));
-  text_layer_set_font(s_dow_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-  text_layer_set_text_alignment(s_dow_layer, GTextAlignmentCenter);
-  text_layer_set_background_color(s_dow_layer, GColorClear);
-  layer_add_child(root, text_layer_get_layer(s_dow_layer));
-
-  // Time layer (middle) with gap spacing
-  s_time_layer = text_layer_create(GRect(0, start_y + label_h + gap, bounds.size.w, row_h));
-  text_layer_set_font(s_time_layer, font);
-  text_layer_set_text_alignment(s_time_layer, GTextAlignmentCenter);
-  text_layer_set_background_color(s_time_layer, GColorClear);
-  layer_add_child(root, text_layer_get_layer(s_time_layer));
-
-  // Full date layer (bottom) with gap spacing
-  s_date_layer = text_layer_create(GRect(0, start_y + label_h + gap + row_h + gap, bounds.size.w, label_h));
-  text_layer_set_font(s_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
-  text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
-  text_layer_set_background_color(s_date_layer, GColorClear);
-  layer_add_child(root, text_layer_get_layer(s_date_layer));
+  s_dow_layer = create_text_layer(
+      root, GRect(0, dow_y, bounds.size.w, INFO_LAYER_HEIGHT), info_font);
+  s_time_layer = create_text_layer(
+      root, GRect(0, time_y, bounds.size.w, clock_h), font);
+  s_date_layer = create_text_layer(
+      root, GRect(0, date_y, bounds.size.w, INFO_LAYER_HEIGHT), info_font);
 
   apply_settings();
   update_display();
