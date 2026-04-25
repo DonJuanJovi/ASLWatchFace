@@ -82,7 +82,7 @@
             "label": "Pebble Install Gabbro",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator gabbro"],
+            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator gabbro --logs"],
             "group": "test",
             "dependsOn": "Pebble Build",
             "presentation": {
