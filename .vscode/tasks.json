@@ -125,6 +125,17 @@
                 "panel": "shared"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Pebble Settings (HTML, Emery)",
+            "type": "shell",
+            "command": "pwsh",
+            "args": ["-NoProfile", "-Command", "Start-Process \"${workspaceFolder}\\src\\pkjs\\settings.html\""],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
         }
     ],
     "inputs": [

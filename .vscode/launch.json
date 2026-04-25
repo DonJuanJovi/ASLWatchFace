@@ -7,6 +7,12 @@
             "request": "launch",
             "command": "wsl bash -lc 'cd /mnt/q/ASLWatchFace && pebble install --emulator emery && pebble logs --emulator emery'",
             "preLaunchTask": "Pebble Build"
+        },
+        {
+            "name": "Pebble Settings (HTML, Emery)",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "pwsh -NoProfile -Command \"Start-Process '${workspaceFolder}\\src\\pkjs\\settings.html'\""
         }
     ]
 }
