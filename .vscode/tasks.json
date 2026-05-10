@@ -5,7 +5,10 @@
             "label": "Pebble Build",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble build"],
+            "args": ["bash", "--login", "-lc", "pebble build"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -31,7 +34,10 @@
             "label": "Pebble Clean Build",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble clean && pebble build"],
+            "args": ["bash", "--login", "-lc", "pebble clean && pebble build"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": "build",
             "problemMatcher": {
                 "owner": "pebble",
@@ -54,7 +60,10 @@
             "label": "Pebble Install Emery",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator emery --logs"],
+            "args": ["bash", "--login", "-lc", "pebble install --emulator emery --logs"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -69,7 +78,10 @@
             "label": "Pebble Install Emery (No Logs)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator emery"],
+            "args": ["bash", "--login", "-lc", "pebble install --emulator emery"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "dependsOn": "Pebble Build",
             "presentation": {
                 "reveal": "always",
@@ -81,7 +93,10 @@
             "label": "Pebble Install Gabbro",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --emulator gabbro --logs"],
+            "args": ["bash", "--login", "-lc", "pebble install --emulator gabbro --logs"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "group": "test",
             "dependsOn": "Pebble Build",
             "presentation": {
@@ -94,7 +109,10 @@
             "label": "Pebble Logs (Emulator)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble logs --emulator emery"],
+            "args": ["bash", "--login", "-lc", "pebble logs --emulator emery"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "isBackground": true,
             "presentation": {
                 "reveal": "always",
@@ -106,7 +124,10 @@
             "label": "Pebble Screenshot (Emulator)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble screenshot --emulator emery"],
+            "args": ["bash", "--login", "-lc", "pebble screenshot --emulator emery"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -117,7 +138,10 @@
             "label": "Pebble Install (Phone)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && pebble install --phone ${input:phoneIp}"],
+            "args": ["bash", "--login", "-lc", "pebble install --phone ${input:phoneIp}"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "dependsOn": "Pebble Build",
             "presentation": {
                 "reveal": "always",
@@ -129,7 +153,10 @@
             "label": "Pebble Settings (Clay, Emery)",
             "type": "shell",
             "command": "wsl",
-            "args": ["bash", "-lc", "cd /mnt/q/ASLWatchFace && for i in {1..15}; do pebble emu-app-config --emulator emery && exit 0; echo waiting-for-pkjs; sleep 1; done; echo failed-to-open-settings; exit 1"],
+            "args": ["bash", "--login", "-lc", "for i in {1..15}; do pebble emu-app-config --emulator emery && exit 0; echo waiting-for-pkjs; sleep 1; done; echo failed-to-open-settings; exit 1"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
             "dependsOn": "Pebble Install Emery (No Logs)",
             "presentation": {
                 "reveal": "always",
