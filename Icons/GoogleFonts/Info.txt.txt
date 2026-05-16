@@ -1,0 +1,6 @@
+Icons downloaded from google
+Dowload Site: https://fonts.google.com/icons?icon.size=24&icon.color=%231f1f1f
+GitHub: https://github.com/google/material-design-icons
+
+License: Apache 2.0
+https://github.com/google/material-design-icons/blob/main/LICENSE
