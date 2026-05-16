@@ -12,11 +12,29 @@
 #define SMALL_CLOCK_LAYER_HEIGHT 35
 #define LARGE_CLOCK_LAYER_HEIGHT 50
 #define SMALL_SCREEN_HEIGHT 200
+#define ICON_HEIGHT 24
+#define ICON_WIDTH 24
+
+// Padding from the edge of the screen to the content. This is needed to
+// prevent the content from looking warped on curved edges.
+#if defined(PBL_PLATFORM_BASALT) || defined(PBL_PLATFORM_EMERY)
+#define EDGE_PADDING 0
+#elif defined(PBL_PLATFORM_GABBRO)
+#define EDGE_PADDING 2
+#endif
+
+#if defined(PBL_PLATFORM_BASALT) || defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+#define PBL_PLATFORM_EMULATOR
+#endif
 
 static Window *s_window;
 static TextLayer *s_dow_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_date_layer;
+static Layer *s_steps_block_layer;
+static TextLayer *s_steps_text_layer;
+static BitmapLayer *s_steps_icon_layer;
+static GBitmap *s_steps_icon_bitmap;
 static GFont s_font_asl;
 static GFont s_font_asl_sm;
 static bool s_use_small_font;
@@ -26,6 +44,11 @@ static char s_min_buf[MIN_STR_LEN];
 static char s_time_buf[TIME_STR_LEN];
 static char s_dow_buf[DOW_STR_LEN];
 static char s_full_date_buf[FULL_DATE_STR_LEN];
+static char s_steps_buf[16];
+
+static void update_steps_display(void);
+static void health_handler(HealthEventType event, void *context);
+static Layer *create_steps_block(Layer *parent, GRect frame, GFont font);
 
 static TextLayer *create_text_layer(Layer *parent, GRect frame, GFont font) {
   TextLayer *layer = text_layer_create(frame);
@@ -34,6 +57,31 @@ static TextLayer *create_text_layer(Layer *parent, GRect frame, GFont font) {
   text_layer_set_background_color(layer, GColorClear);
   layer_add_child(parent, text_layer_get_layer(layer));
   return layer;
+}
+
+static Layer *create_steps_block(Layer *parent, GRect frame, GFont font) {
+  Layer *block = layer_create(frame);
+
+  GRect icon_frame = GRect(EDGE_PADDING, EDGE_PADDING, ICON_HEIGHT + EDGE_PADDING * 2, ICON_WIDTH + EDGE_PADDING);
+  s_steps_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_STEPS_ICON);
+  s_steps_icon_layer = bitmap_layer_create(icon_frame);
+  bitmap_layer_set_bitmap(s_steps_icon_layer, s_steps_icon_bitmap);
+  bitmap_layer_set_background_color(s_steps_icon_layer, GColorWhite);
+  bitmap_layer_set_compositing_mode(s_steps_icon_layer, GCompOpSet);
+  layer_add_child(block, bitmap_layer_get_layer(s_steps_icon_layer));
+
+  // Text layer starts X pixels to the right of the icon.
+  int text_x = ICON_WIDTH;
+  int text_y = (icon_frame.size.h - INFO_LAYER_HEIGHT) / 2;
+  GRect text_frame = GRect(text_x, text_y, frame.size.w - text_x, INFO_LAYER_HEIGHT);
+  s_steps_text_layer = text_layer_create(text_frame);
+  text_layer_set_font(s_steps_text_layer, font);
+  text_layer_set_text_alignment(s_steps_text_layer, GTextAlignmentLeft);
+  text_layer_set_background_color(s_steps_text_layer, GColorClear);
+  layer_add_child(block, text_layer_get_layer(s_steps_text_layer));
+
+  layer_add_child(parent, block);
+  return block;
 }
 
 static int get_clock_layer_height() {
@@ -71,6 +119,24 @@ static void update_display() {
   text_layer_set_text(s_dow_layer, s_dow_buf);
   text_layer_set_text(s_time_layer, s_time_buf);
   text_layer_set_text(s_date_layer, s_full_date_buf);
+  update_steps_display();
+}
+
+static void update_steps_display(void) {
+  if (!s_steps_text_layer) return;
+  time_t time_start = time_start_of_today();
+  time_t now = time(NULL);
+  HealthValue steps = health_service_sum_averaged(HealthMetricStepCount, time_start,
+   now, HealthServiceTimeScopeDaily);
+#ifdef PBL_PLATFORM_EMULATOR
+    steps = 12345;
+#endif
+  snprintf(s_steps_buf, sizeof(s_steps_buf), "%d", (int)steps);
+  text_layer_set_text(s_steps_text_layer, s_steps_buf);
+}
+
+static void health_handler(HealthEventType event, void *context) {
+  update_steps_display();
 }
 
 static GFont get_selected_font() {
@@ -85,6 +151,7 @@ static void apply_settings() {
   text_layer_set_text_color(s_dow_layer, globalSettings.infoColor);
   text_layer_set_text_color(s_time_layer, globalSettings.timeColor);
   text_layer_set_text_color(s_date_layer, globalSettings.infoColor);
+  text_layer_set_text_color(s_steps_text_layer, globalSettings.infoColor);
   GFont font = get_selected_font();
   text_layer_set_font(s_time_layer, font);
 }
@@ -102,6 +169,11 @@ static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(root);
   GFont info_font = fonts_get_system_font(FONT_KEY_GOTHIC_14);
+
+  // Width of the corner boxes. Witdth is 1/3 of the screen to provide natural
+  // padding between boxes when all are displayed.
+  int corner_box_width = bounds.size.w / 3;
+  int corner_box_height = ICON_HEIGHT;
 
   // Load fonts (large and small variants)
   s_font_asl = fonts_load_custom_font(
@@ -122,6 +194,9 @@ static void window_load(Window *window) {
 
   s_dow_layer = create_text_layer(
       root, GRect(0, dow_y, bounds.size.w, INFO_LAYER_HEIGHT), info_font);
+  // Steps counter block in top-left: icon + step count as one relocatable unit
+  s_steps_block_layer = create_steps_block(
+      root, GRect(2, 2, corner_box_width, corner_box_height), info_font);
   s_time_layer = create_text_layer(
       root, GRect(0, time_y, bounds.size.w, clock_h), font);
   s_date_layer = create_text_layer(
@@ -135,6 +210,10 @@ static void window_unload(Window *window) {
   text_layer_destroy(s_dow_layer);
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_date_layer);
+  text_layer_destroy(s_steps_text_layer);
+  bitmap_layer_destroy(s_steps_icon_layer);
+  gbitmap_destroy(s_steps_icon_bitmap);
+  layer_destroy(s_steps_block_layer);
   fonts_unload_custom_font(s_font_asl);
   fonts_unload_custom_font(s_font_asl_sm);
 }
@@ -151,6 +230,8 @@ static void init() {
   window_stack_push(s_window, true);
 
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  // Subscribe to health events to update steps
+  health_service_events_subscribe(health_handler, NULL);
 }
 
 static void deinit() {
