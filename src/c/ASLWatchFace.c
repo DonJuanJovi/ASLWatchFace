@@ -17,13 +17,14 @@
 
 // Padding from the edge of the screen to the content. This is needed to
 // prevent the content from looking warped on curved edges.
-#if defined(PBL_PLATFORM_BASALT) || defined(PBL_PLATFORM_EMERY)
-#define EDGE_PADDING 0
-#elif defined(PBL_PLATFORM_GABBRO)
+#if defined(PBL_PLATFORM_GABBRO)
 #define EDGE_PADDING 2
+#else
+#define EDGE_PADDING 0
 #endif
 
-#if defined(PBL_PLATFORM_BASALT) || defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
+// Emery: Pebble 2; Gabbro: Pebble Round
+#if defined(PBL_PLATFORM_EMERY) || defined(PBL_PLATFORM_GABBRO)
 #define PBL_PLATFORM_EMULATOR
 #endif
 
