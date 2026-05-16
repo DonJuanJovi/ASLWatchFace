@@ -15,6 +15,7 @@
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
+      "basalt",
       "emery",
       "gabbro"
     ],
@@ -43,6 +44,11 @@
           "name": "FONT_ASL_42",
           "file": "fonts/AmericanSignLanguage.ttf",
           "characterRegex": "[0-9]"
+        },
+        {
+          "type": "png",
+          "name": "IMAGE_STEPS_ICON",
+          "file": "images/footprint_24dp.png"
         }
       ]
     }
